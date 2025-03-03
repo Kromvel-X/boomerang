@@ -1,0 +1,60 @@
+.bonus-list__item[data-icon="bonus2"]:before {
+  background-image: url('../images/icons/qd_ball.webp');
+}
+@media (min-width: 768px) {
+  .col__a\@s {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+  }
+  .col__e\@s {
+    min-width: 1px;
+    flex: 1;
+  }
+  /* Hero start */
+  .hero-banner__box {
+    min-height: initial;
+  }
+  .bonus-list__item {
+    padding: 16px 55px 16px 86px;
+  }
+  .bonus-list__item:before {
+    width: 42px;
+    height: 71px;
+    left: 22px;
+  }
+  .bonus-list__item .arrow_button {
+    width: 30px;
+    height: 30px;
+  }
+  .bonus-list__item .arrow_button:before {
+    width: 10px;
+    height: 10px;
+  }
+  .bonus-list__offer {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .bonus-pseudo-form__button {
+    font-size: 1.5rem;
+    padding: 18px 48px;
+  }
+  .input,
+  .bonus-pseudo-form__select {
+    height: 60px;
+    border-radius: 100px;
+    padding: 16px 22px;
+    font-size: 1.5rem;
+  }
+  #currency {
+    font-size: 1.5rem;
+    padding: 12px 22px;
+  }
+  /* Hero end */
+}
+@media (min-width: 1440px) {
+  .bonus-pseudo-form__button {
+    font-size: 1.5rem;
+    padding: 18px 48px;
+  }
+}

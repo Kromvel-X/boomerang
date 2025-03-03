@@ -1,0 +1,17 @@
+{
+    "name": "kromvel/boomerang-wp",
+    "description": "Composer package for managing dependencies and autoloading in a WordPress project.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Boomerang\\": "wp-content/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikita",
+            "email": "kromveln@gmail.com"
+        }
+    ],
+    "require": {}
+}

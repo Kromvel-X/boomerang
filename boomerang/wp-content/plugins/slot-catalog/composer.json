@@ -1,0 +1,21 @@
+{
+    "name": "kromvel/slot-catalog",
+    "description": "A plugin to display a slot catalog.",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "SlotCatalog\\Core\\": "src/Core/",
+            "SlotCatalog\\Frontend\\": "src/Frontend/",
+            "SlotCatalog\\Query\\": "src/Query/",
+            "SlotCatalog\\API\\": "src/API/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikita",
+            "email": "kromveln@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

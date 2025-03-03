@@ -1,0 +1,103 @@
+@c_white: #fff;
+@c_black: #000;
+@c_gray: #17191e;
+@c_light: #ffeed6;
+@c_primary:#ffcd34;
+@c_primary_dark:#f6bf1a;
+@c_primary_mute: #725e0b;
+@c_emphasis: #fd4558;
+@fz: 16px;
+@lh: 1.25;
+@fzs: 14px;
+@lhs: 1.25;
+@h1_fz: 1.6rem;
+@h1_lh: 1.125;
+@h2_fz: 1.4rem;
+@h2_lh: 1.3;
+@h3_fz: 1.2rem;
+@h3_lh: 1.11111111;
+@ff: 'Montserrat', sans-serif;
+@padding_s: 24px;
+@gap: 40px;
+
+:root{
+    --icon-i-search: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='yes'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none'%3E%3Cpath fill='%23F2C94C' fill-rule='evenodd' d='M14.36 12.1l3.17 3.17a1.6 1.6 0 01-2.26 2.26l-3.17-3.17a7.82 7.82 0 112.27-2.27zm-6.54.87a5.15 5.15 0 100-10.3 5.15 5.15 0 000 10.3z' clip-rule='evenodd' style=''/%3E%3C/svg%3E");
+}
+
+.search{
+    padding-top: 100px;
+}
+.provider{
+    display: flex;
+    row-gap: 10px;
+    column-gap: 10px;
+    flex-wrap: wrap;
+    background: @c_gray;
+    border-radius: 10px;
+    padding: 17px 12px;
+    transform: translateY(100%);
+    position: absolute;
+    z-index: 2;
+    top: calc(100%  - 38px);
+    width: calc(100% - 48px);
+    &.active {
+        transform: translateY(0);
+    }
+}
+/* Hero start */
+.input{
+    height: 40px;
+    border-radius: 60px;
+    padding: 16px;
+    border: 0;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background: #eaecf1;
+    color: @c_black;
+    display: flex;
+    align-items: center;
+    &:focus{
+        outline: 2px solid @c_primary;
+    }
+}
+.input.error{
+    outline: 2px solid #f90404;
+}
+.error-message{
+    position: absolute;
+    bottom: 5px;
+    left: 22px;
+    color: #f90404;
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1;
+    margin-top: 5px;
+}
+.arrow_button{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background: #868caf;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1;
+    &::before{
+        content: '';
+        width: 7px;
+        height: 7px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%) rotate(135deg);
+        border-top: 2px solid #fff;
+        border-right: 2px solid #fff;
+    }
+}
+/* Hero end */

@@ -1,0 +1,156 @@
+@c_white: #fff;
+@c_black: #000;
+@c_gray: #17191e;
+@c_light: #ffeed6;
+@c_primary:#ffcd34;
+@c_primary_dark:#f6bf1a;
+@c_primary_mute: #725e0b;
+@c_emphasis: #fd4558;
+@fz: 16px;
+@lh: 1.25;
+@fzs: 14px;
+@lhs: 1.25;
+@h1_fz: 1.6rem;
+@h1_lh: 1.125;
+@h2_fz: 1.4rem;
+@h2_lh: 1.3;
+@h3_fz: 1.2rem;
+@h3_lh: 1.11111111;
+@ff: 'Montserrat', sans-serif;
+@padding_s: 24px;
+@gap: 40px;
+
+/*Icons start*/
+.icon{
+    position: relative;
+    padding-left: 32px;
+    &::before,  
+    &::after{
+        content: '';
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        border-radius: 50%;
+    }
+    &::after{
+        background-color: @c_primary; /* Цвет заливки */
+    }
+    &:before{
+        background: @c_black;
+    }
+}
+.icon--home{
+    &:after{
+        -webkit-mask: url('../images/icons/icon-home.svg') no-repeat center/contain;
+        mask: url('../images/icons/icon-home.svg') no-repeat center/contain;
+    }
+}
+.icon--game{
+    &:after{
+        -webkit-mask: url('../images/icons/icon-game.svg') no-repeat center/contain;
+        mask: url('../images/icons/icon-game.svg') no-repeat center/contain;
+    }
+}
+.icon--live{
+    &:after{
+        -webkit-mask: url('../images/icons/icone-live.svg') no-repeat center/contain;
+        mask: url('../images/icons/icone-live.svg') no-repeat center/contain;
+    }
+}
+.icon--jackpot{
+    &:after{
+        -webkit-mask: url('../images/icons/icon-jackpot.svg') no-repeat center/contain;
+        mask: url('../images/icons/icon-jackpot.svg') no-repeat center/contain;
+    }
+}
+.icon--sport{
+    &:after{
+        -webkit-mask: url('../images/icons/icon-sport.svg') no-repeat center/contain;
+        mask: url('../images/icons/icon-sport.svg') no-repeat center/contain;
+        width: 14px;
+        height: 14px;
+        left: 5px;
+    }
+}
+/*Icons end*/
+
+
+@media (min-width: 768px){
+    .col__a\@s {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+    }
+    .col__e\@s {
+        min-width: 1px;
+        flex: 1;
+    }
+
+    /*Header start*/
+    .header__buttons{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 12px;
+        margin-left: auto;
+    }
+    /*Header end*/
+}
+
+
+@media (min-width: 1024px){
+    .cnt-vis{
+        content-visibility: initial;
+        contain-intrinsic-size: initial,
+    }
+    /*Header start*/
+    .header__nav{
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+    }
+    /*Header end*/
+}
+
+@media (min-width: 1280px){
+    /*Header start*/
+    #menu{
+        right: 24px;
+        position: initial;
+        height: initial;
+        top: initial;
+        z-index: initial;
+        padding: initial;
+        transform: initial;
+        opacity: initial;
+        visibility: visible;
+        background: initial;
+        border: initial;
+        width: initial;
+        .icon{
+            padding-left: 0;
+            &::before, 
+            &::after{
+                display: none;
+            }
+        }
+    }
+    .nav{
+        flex-direction: row;
+        column-gap: 40px;
+    }
+    .header__burger{
+        display: none;
+    }
+    /*Header end*/
+}
+
+@media (min-width: 1440px){
+    .button{
+        font-size: 1rem;
+        padding: 14px 27px;
+    }
+}

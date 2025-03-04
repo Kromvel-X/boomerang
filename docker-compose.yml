@@ -26,6 +26,7 @@ services:
       WORDPRESS_DB_USER: wpuser
       WORDPRESS_DB_PASSWORD: wppass
       WORDPRESS_DB_NAME: wordpress
+      PHP_MEMORY_LIMIT: "512M"
     volumes:
       - ./boomerang:/var/www/html
     ports:

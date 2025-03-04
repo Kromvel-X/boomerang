@@ -11,8 +11,8 @@ class SearchForm
      */
     public static function render(): bool|string {
         $query = new Query();
-        $providers = $query->getCategories('12');
-        $games = $query->getCategories('11');
+        $providers = $query->getCategories(12);
+        $games = $query->getCategories(11);
 
         if(empty($games) || empty($providers)){
             return false;

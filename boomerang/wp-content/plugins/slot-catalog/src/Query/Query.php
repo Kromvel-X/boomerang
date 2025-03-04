@@ -6,20 +6,23 @@ use WP_Term_Query;
 
 class Query
 {
+/**
+     * @var array<string, int|string>
+     */
     private array $defaultArgs = [
-        'post_type' => 'post',
-        'posts_per_page' => -1,
-        'post_status' => 'publish',
-        'fields' => 'ids',
+        'post_type'      => 'post',      // string
+        'posts_per_page' => -1,          // int
+        'post_status'    => 'publish',   // string
+        'fields'         => 'ids',       // string
     ];
     
     /**
      * Получаем все посты
-     * @param array $customArgs - массив с дополнительными параметрами запроса
+     * @param array<int|string, mixed> $customArgs - массив с дополнительными параметрами запроса
      * @param bool $filterQueryArgs - фильтровать параметры запроса или нет
-     * @return array - массив с постами
+     * @return int[]|\WP_Post[] Возвращает массив ID записей или массив объектов WP_Post - массив с постами
      */
-    public function getAllPost(array $customArgs = [], bool $filterQueryArgs = false):array
+    public function getAllPost(array $customArgs = [], bool $filterQueryArgs = false): array
     {
         // Получаем параметры запроса
         $args = $customArgs ? array_merge($this->defaultArgs, $customArgs) : $this->defaultArgs;
@@ -35,8 +38,8 @@ class Query
     
     /**
      * Фильтруем параметры запроса
-     * @param array $args - массив с параметрами запроса
-     * @return array - массив с отфильтрованными параметрами запроса
+     * @param array<int|string, mixed> $args - массив с параметрами запроса
+     * @return array<int|string, mixed> - массив с отфильтрованными параметрами запроса
      */
     public function filterQueryArgs(array $args): array
     {
@@ -45,7 +48,8 @@ class Query
         // Получаем отсортированные посты, если есть параметр сортировки в GET параметрах
         $args = $this->getSortingArgs($args);
 
-        $title = isset($_GET['title']) ? sanitize_text_field($_GET['title']) : '';
+        $title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $title = sanitize_text_field((string) ($title !== false ? $title : ''));
         if (!empty($title)){
             $args['s'] = $title;
         }
@@ -66,13 +70,14 @@ class Query
 
     /**
      * Получаем параметры сортировки
-     * @param array $args - массив с параметрами запроса
-     * @return array - массив с параметрами запроса с учетом сортировки
+     * @param array<int|string, mixed> $args - массив с параметрами запроса
+     * @return array<int|string, mixed> - массив с параметрами запроса с учетом сортировки
      */
     public function getSortingArgs($args): array 
     {
         // Получаем параметр сортировки и фильтруем
-        $sort = sanitize_text_field($_GET['sort'] ?? 'asc');
+        $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $sort = sanitize_text_field((string) ($sort !== false ? $sort : 'asc'));
         // Допустимые значения сортировки
         $sorting_options = [
             'asc'    => ['orderby' => 'title', 'order' => 'ASC'],
@@ -86,7 +91,7 @@ class Query
     /**
      * Получаем посты по имени категории
      * @param string $categoryName - название категории
-     * @return array - массив с постами
+     * @return int[]|\WP_Post[] - массив с постами
      */
     public function getPostsByCategory(string $categoryName = ''): array
     {
@@ -95,7 +100,7 @@ class Query
         }
         // Получаем категорию по имени
         $category = get_term_by('name', $categoryName, 'category');
-        if (empty($categoryName)) {
+        if (empty($category) || is_wp_error($category)) {
             return [];
         }
         $args['category__in'] = [$category->term_id]; 
@@ -105,7 +110,7 @@ class Query
     /**
      * Получаем посты по заголовку
      * @param string $title - название поста
-     * @return array - массив с постами
+     * @return int[]|\WP_Post[] - массив с постами
      */
     public function getPostsByTitle(string $title = ''): array
     {
@@ -118,8 +123,8 @@ class Query
 
     /**
      * Форматируем результаты запроса
-     * @param array $postsIds - массив с ID постов
-     * @return array - массив с отформатированными результатами
+     * @param array<int|string, mixed> $postsIds - массив с ID постов
+     * @return array<int, array<string, string>> - массив с отформатированными результатами
      */
     public function formatPostResults(array $postsIds): array
     {
@@ -128,14 +133,22 @@ class Query
         }
         $results = [];
         foreach ($postsIds as $postID) {
+            if(!is_int($postID)) {
+                continue;
+            }
             $postTitle = esc_html(get_the_title($postID));
-            $postLink = esc_url(get_permalink($postID));
+            $postLink = esc_url((string) get_permalink($postID));
             $postContent = get_post_field('post_content', $postID);
             $postContent = wp_strip_all_tags($postContent);
             $postContent = wp_trim_words($postContent, 5, '...');
-            $imageID = get_post_thumbnail_id($postID);
-            $tag = get_the_tags($postID);
-            $tagName = (!empty($tag) && isset($tag[0])) ? esc_html($tag[0]->name) : '';
+            $imageID = (int) get_post_thumbnail_id($postID);
+            $tags = get_the_tags($postID);
+            // Проверяем, что это массив и в нём есть хотя бы один элемент
+            if (!empty($tags) && !is_wp_error($tags) && isset($tags[0])) {
+                $tagName = esc_html($tags[0]->name);
+            } else {
+                $tagName = ''; // Если тегов нет или произошла ошибка
+            }
             $image = wp_get_attachment_image($imageID, 'full', false, ['class' => 'slot-card__image lazy_load']) ?: '';
             $results[] = [
                 'title' => $postTitle,
@@ -150,12 +163,19 @@ class Query
 
     /**
      * Получаем массив категорий
-     * @return array - массив с категориями
+     * @return array<int|string, mixed> - массив с категориями
      */
-    public function getCategories(string $parentCatID = ''): array 
+    public function getCategories(int $parentCatID = 0): array 
     {
-        $uncategorized = get_category_by_slug('uncategorized');
-        $uncategorized_id = $uncategorized ? $uncategorized->term_id : 0;
+        // Создаём ключ кеша
+        $cache_key = "category_results_" . md5('cat' . $parentCatID);
+        $cached_result = wp_cache_get($cache_key, 'slot_catalog');
+      
+        if ($cached_result !== false && is_array($cached_result)) {
+            return $cached_result;
+        }
+
+        $uncategorized_id = get_category_by_slug('uncategorized')->term_id ?? 0;
         $term_query = new WP_Term_Query([
             'taxonomy'   => 'category',
             'orderby'    => 'name',
@@ -164,6 +184,10 @@ class Query
             'exclude'    => [$uncategorized_id],
             'parent'     => $parentCatID,
         ]);
-        return $term_query->terms;
+
+        $tems = $term_query->terms;
+        // Сохраняем результат в Redis на 5 минут (300 секунд)
+        wp_cache_set($cache_key, $tems, 'slot_catalog', 300);
+        return $tems;
     }
 }

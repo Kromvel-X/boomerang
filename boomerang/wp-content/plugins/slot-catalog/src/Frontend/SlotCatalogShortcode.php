@@ -42,7 +42,7 @@ class SlotCatalogShortcode
             'slots-catalog', 
             $scripts, 
             array(), 
-            filemtime( $realpathScript ), 
+            (string) filemtime( $realpathScript ) ?: '1.0', 
             array( 
                 'strategy'  => 'defer',
                 'in_footer' => true,
@@ -68,7 +68,7 @@ class SlotCatalogShortcode
             'slots-catalog', 
             $styles, 
             array(), 
-            filemtime( $realpathStyle )
+            (string) filemtime( $realpathStyle ) ?: '1.0'
         );
     }
 

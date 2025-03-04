@@ -21,19 +21,23 @@
                 </button>
             </div>
             <div id="providers" class="col dropdown-content provider">
-                <?php foreach ($providers as $category) : ?>
-                    <span class='lazy_image_bc provider__item provider__icon icon--<?php echo esc_html($category->slug);?>'>
-                        <?php echo esc_html($category->name); ?>
-                    </span>
-                <?php endforeach; ?>
+                <?php if (!empty($providers)): ?>
+                    <?php foreach ($providers as $category) : ?>
+                        <span class='lazy_image_bc provider__item provider__icon icon--<?php echo esc_html($category->slug);?>'>
+                            <?php echo esc_html($category->name); ?>
+                        </span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
         <div id="category" class="row slider">
-            <?php foreach ($games as $category) : ?>
-                <div class="col col__a category__item pos-r z1">
-                    <button class="button button--dark category__button icon--<?php echo esc_html($category->slug);?>"><?php echo esc_html($category->name); ?></button>
-                </div>
-            <?php endforeach;?>
+            <?php if (!empty($games)): ?>
+                <?php foreach ($games as $category) : ?>
+                    <div class="col col__a category__item pos-r z1">
+                        <button class="button button--dark category__button icon--<?php echo esc_html($category->slug);?>"><?php echo esc_html($category->name); ?></button>
+                    </div>
+                <?php endforeach;?>
+            <?php endif; ?>
         </div>
     </div>
 </div>

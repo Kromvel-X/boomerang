@@ -1,0 +1,8 @@
+parameters:
+    level: 9
+    paths:
+        - boomerang/wp-content/plugins/slot-catalog
+    excludePaths:
+        -  boomerang/wp-content/plugins/slot-catalog/vendor/*
+    ignoreErrors:
+        - '#Method .*::handleSubmission\(\) has parameter \$request with generic class WP_REST_Request but does not specify its types#'

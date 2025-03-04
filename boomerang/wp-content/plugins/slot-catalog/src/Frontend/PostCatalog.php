@@ -16,7 +16,9 @@ class PostCatalog
             return false;
         }
         $postsData = $query->formatPostResults($postsIds);
-        
+        if(empty($postsData)) {
+            return false;
+        }
         ob_start(); // Включаем буферизацию вывода
         include plugin_dir_path(__FILE__) . '../../templates/posts-catalog.php';
         return ob_get_clean(); // Получаем содержимое буфера и очищаем его

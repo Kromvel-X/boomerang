@@ -1,3 +1,6 @@
 **/node_modules/
 node_modules/
 *.log
+/vendor/php-stubs/
+/vendor/phpstan/
+/vendor/szepeviktor/

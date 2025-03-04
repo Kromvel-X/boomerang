@@ -10,8 +10,9 @@ class Plugin
 {
     /**
      * Инициализация плагина
+     * @return void
      */
-    public static function init() {
+    public static function init(): void {
         add_action('init', [SlotCatalogShortcode::class, 'register']);
         add_action('init', [SlotSliderShortcode::class, 'register']);
         SearchAjax::register();
@@ -20,7 +21,11 @@ class Plugin
        
     }
 
-    public static function initAPI() {
+    /**
+     * Инициализация API
+     * @return void
+     */
+    public static function initAPI(): void {
         SlotCatalogAPIendpoint::register();
     }
 }

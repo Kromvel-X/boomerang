@@ -11,6 +11,7 @@ class SlotSliderShortcode extends SlotCatalogShortcode
     /**
      * Отображаем слайдер слотов
      * @return string - слайдер слотов
+     * 
      */
     public static function render(): string
     {
@@ -18,7 +19,7 @@ class SlotSliderShortcode extends SlotCatalogShortcode
         add_action('wp_footer', [static::class, 'connectScripts']);
         add_action('wp_footer', [static::class, 'connectStyles']);
         $html = PostSlider::render();
-        return $html;
+        return is_string($html) ? $html : '';
     }
 
     /**

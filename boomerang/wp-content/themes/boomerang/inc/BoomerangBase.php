@@ -4,8 +4,9 @@ class BoomerangBase
 {
     /**
      * Инициализация темы Boomerang
+     * @return void
      */
-    public static function init()
+    public static function init(): void
     {
         add_action('after_setup_theme', [static::class, 'themeSetup']);
         add_action('wp_enqueue_scripts', [static::class, 'connectScripts'], 1);
@@ -20,13 +21,18 @@ class BoomerangBase
         // add_filter('wp_is_application_passwords_available', '__return_true');
     }
 
-    public static function themeSetup() {
+    /**
+     * Настройка темы
+     * @return void
+     */
+    public static function themeSetup(): void {
         add_theme_support('post-thumbnails');
         add_theme_support('title-tag');
     }
 
     /**
      * Подключаем скрипты
+     * @return void
      */
     public static function connectScripts(): void
     {
@@ -36,7 +42,7 @@ class BoomerangBase
             'main', 
             $scripts, 
             array(), 
-            filemtime( $realpathScript ), 
+            (string) filemtime( $realpathScript ) ?: '1.0',
             array( 
                 'strategy'  => 'defer',
                 'in_footer' => true,
@@ -46,6 +52,7 @@ class BoomerangBase
 
     /**
      * Всраиваем стили из шорткодов
+     * @return void
      */
     public static function insertFirstStylesFromShortcodes(): void  
     {
@@ -54,6 +61,7 @@ class BoomerangBase
 
     /**
      * Получаем стили первого экрана из шорткодов
+     * @return string - стили
      */
     public static function getFirstStyleFromShortcode(): string
     {
@@ -73,13 +81,19 @@ class BoomerangBase
 
         if(is_array(value: $shortStylesFirst) && count($shortStylesFirst) > 0) {
             foreach($shortStylesFirst as $key=>$value) {
-                if(has_shortcode($content, $key)) {
+                if(is_array($value) && has_shortcode($content, $key)) {
                     $ret .= '<style>';
+                    
                     foreach($value as $link){
                         $ret .= "";
+                        $buffer = '';
                         $path_to_css = $link;
-                        $buffer = file_get_contents( $link );
-                        $ret .= "\n\n /* ==========================================================================" . basename( $path_to_css )  . "========================================================================== */ \n\n";
+                        if (is_string($link)) {
+                            $buffer .= file_get_contents($link);
+                        }
+                        if (is_string($path_to_css)) {
+                            $ret .= "\n\n /* ==========================================================================" . basename($path_to_css) . "========================================================================== */ \n\n";
+                        }
                         $ret .= $buffer;
                         
                     }
@@ -92,7 +106,7 @@ class BoomerangBase
 
     /**
      * Встраиваем шрифты
-     * 
+     * @return void
      */
     public static function insertFonts(): void
     { 
@@ -100,13 +114,15 @@ class BoomerangBase
         $path_to_css = get_stylesheet_directory() . '/css/fonts.min.css';
         $buffer = file_get_contents( $path_to_css );
         $ret .= "\n\n /* ==========================================================================" . basename( $path_to_css )  . "========================================================================== */ \n\n";
-        $ret .= str_replace('/fonts/', get_stylesheet_directory_uri() . '/fonts/', $buffer);
+        if ($buffer !== false) {
+            $ret .= str_replace('/fonts/', get_stylesheet_directory_uri() . '/fonts/', $buffer);
+        }
         echo '<style>'.$ret.'</style>';
     }
 
     /**
      * Встраиваем стили первого экрана
-     * 
+     * @return void
      */
     public static function insertStyleFirst(): void
     { 
@@ -120,8 +136,9 @@ class BoomerangBase
 
     /**
      * Подключаем стили
+     * @return void
      */
-    public static function connectStyles()
+    public static function connectStyles(): void
     {
         $realpathStyle =get_stylesheet_directory() . '/css/style.min.css';
         $styles = get_stylesheet_directory_uri() . '/css/style.min.css';
@@ -129,12 +146,13 @@ class BoomerangBase
             'boomerang-style-main', 
             $styles, 
             array(), 
-            filemtime( $realpathStyle )
+            (string) filemtime( $realpathStyle ) ?: '1.0',
         );
     }
 
     /**
      * Удаляем стили по умолчанию
+     * @return void
      */
     public static function removeStyles(): void
     {
@@ -161,6 +179,11 @@ class BoomerangBase
 
     /**
      * Асинхронная загрузка стилей
+     * @param string $html - Тег ссылки для поставленного в очередь стиля.
+     * @param string $handle - Зарегистрированное имя стиля.
+     * @param string $href - Исходный URL таблицы стилей.
+     * @param string $media - Атрибут media таблицы стилей
+     * @return string
      */
     public static function asyncLoadCss($html, $handle, $href, $media): string 
     {
@@ -172,6 +195,10 @@ class BoomerangBase
 
     /**
      * Ленивая загрузка изображений
+     * @param array<string|int, mixed> $attr - Атрибуты изображения
+     * @param WP_Post $attachment - Прикрепленное изображение поста.
+     * @param string|array<int> $size - Размер изображения
+     * @return mixed
      */
     public static function customLazyLoadImages($attr, $attachment, $size): mixed 
     {
@@ -192,6 +219,7 @@ class BoomerangBase
 
     /**
      * Предзагрузка шрифтов
+     * @return void
      */
     public static function preloadFonts(): void
     {

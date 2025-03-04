@@ -64,8 +64,7 @@ class Query
     public function getCountPosts():int
     {
         // Получаем параметр count и фильтруем его, преобразуем в число
-        $count = filter_var($_GET['count'] ?? null, FILTER_VALIDATE_INT);
-        return $count !== false ? $count : -1;
+        return filter_input(INPUT_GET, 'count', FILTER_VALIDATE_INT) ?: -1;
     }
 
     /**

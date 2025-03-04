@@ -183,5 +183,23 @@ php -d memory_limit=512M vendor/bin/phpstan analyse
     •	PHPStan: Для повышения качества кода
 
 
+## Полезнае команды
+
+Cоздание бэкапа базы данных
+```
+bash boomerang/backup-db.sh
+```
+
+Подключение к redis
+```
+docker exec -it redis_container redis-cli
+```
+
+Поиск ключей в redis, группы wp:slot_catalog
+```
+keys *slots*
+```
+
+
 ## Примечания
 При запуске проекта с помощью Docker Compose автоматически создаются все необходимые контейнеры, в том числе для базы данных и Redis.

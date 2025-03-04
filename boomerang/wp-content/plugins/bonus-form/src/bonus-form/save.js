@@ -41,11 +41,9 @@ export default function save({ attributes }) {
 						{/* Поля формы */}
 						<div className="row bonus-pseudo-form__fields">
 							<div className="col bonus-pseudo-form__field">
-								<label htmlFor="deposit-amount">Deposit Amount</label>
-								<input type="number" id="deposit-amount" className="input" name="deposit" min="0" value="60" />
+								<input type="number" id="deposit-amount" className="input" name="deposit-amount" min="0" value="60" aria-label="Deposit Amount" />
 							</div>
 							<div className="col bonus-pseudo-form__field">
-								<label htmlFor="currency">Currency</label>
 								<input type="hidden" name="currency" id="currency-value" value="EUR"></input>
 								<div className="bonus-pseudo-form__select dropdown-btn pos-r select-dropdown" data-dropdown="currency">
 									<span className="dropdown-btn__text">EUR</span>
@@ -60,7 +58,7 @@ export default function save({ attributes }) {
 						</div>
 
 						{/* Кнопка отправки формы */}
-						<button type="submit" className="button bonus-pseudo-form__button">
+						<button type="submit" className="button bonus-pseudo-form__button" aria-label='Submit'>
 							{buttonText}
 						</button>
 					</form>

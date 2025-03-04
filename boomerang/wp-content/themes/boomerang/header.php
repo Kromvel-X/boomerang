@@ -28,7 +28,7 @@
                     <a href="#" class="button button--dark">Войти</a>
                     <a href="#" class="button">Регистрация</a>
                 </div>
-                <button class="col__a header__burger dropdown-btn" data-dropdown="menu">
+                <button class="col__a header__burger dropdown-btn" data-dropdown="menu" aria-label="Открыть меню">
                     <span class="header__burger-icon"></span>
                 </button>
             </div>

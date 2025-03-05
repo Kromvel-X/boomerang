@@ -15,7 +15,6 @@ class SlotSliderShortcode extends SlotCatalogShortcode
      */
     public static function render(): string
     {
-        static::connectScripts();
         add_action('wp_footer', [static::class, 'connectScripts']);
         add_action('wp_footer', [static::class, 'connectStyles']);
         $html = PostSlider::render();
